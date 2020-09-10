@@ -3,12 +3,15 @@ service: aws-node-rest-api
 provider:
   name: aws
   runtime: nodejs12.x
-  profile: yearn_api 
+  profile: ${file(./awsProfile.yml):aws_profile}
+
+plugins:
+  - serverless-offline
 
 functions:
-  hello:
-    handler: handler.hello
+  user_earnings:
+    handler: handlers/userEarnings.userEarnings
     events:
       - http:
-          path: /
+          path: /user/{id}/vaults/earnings
           method: get

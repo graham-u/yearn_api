@@ -1,50 +1,24 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple REST API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework v1.'
-layout: Doc
-framework: v1
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# To get started:
 
-# Serverless Framework Node REST API on AWS
+## Install serverless
+https://www.serverless.com/framework/docs/getting-started/
 
-This template demonstrates how to make a simple REST API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework v1.
+## Configure local environment
+Optionally create the file awsProfile.yml in the root folder to specify which aws_profile in ~/.aws/credentials serverless should use to deploy.
+This file can be created by copying the contents of example.awsProfile.yml and changing the profile value.
 
-This template does not include any kind of persistence (database). For a more advanced examples check out the [examples repo](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+If this step is omitted, you will see a warning about the file not being found, and your default aws profile will be used (I think).
 
-## Setup
+Create a .env file in the root foler to store subgraph and web3 endpoints.
+This file can be created by copying the contents of .example.env and changing the endpoint values.
 
-Run this command to initialize a new project in a new working directory.
-
-`sls init aws-node-rest-api`
-
-## Usage
-
-**Deploy**
-
-This example is made to work with the Serverless Framework dashboard which includes advanced features like CI/CD, monitoring, metrics, etc.
-
-```
-$ serverless login
-$ serverless deploy
-```
-
-To deploy without the dashboard you will need to remove `org` and `app` fields from the `serverless.yml`, and you won’t have to run `sls login` before deploying.
-
-**Invoke the function locally.**
-
-```
-serverless invoke local --function hello
-```
-
-**Invoke the function**
-
-```
-curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/
-```
+In the future AWS KMS should probably be used to manage these variables instead.
 
 
+## Use offline mode for local development and testing
+The serverless offline plugin is a dev dependency and can be used to simulate the lambda environment and API gateway locally to run and debug lambda functions.
+Start the server listening for connections with:
+
+sls offline
+
+See https://www.npmjs.com/package/serverless-offline for further details.
