@@ -7,11 +7,30 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-domain-manager
 
 functions:
-  user_earnings:
-    handler: handlers/userEarnings.userEarnings
+  user-earnings:
+    handler: services/user/vault/earnings/handler.handler
     events:
-      - http:
+      - httpApi:
           path: /user/{id}/vaults/earnings
           method: get
+
+  loanscan-link:
+    handler: services/loanscan/link/handler.handler
+    events:
+      - httpApi:
+          path: /loanscan/link
+          method: get
+custom:
+  customDomain:
+    domainName: api.yearn.tools
+    stage: ci
+    basePath: 'ci'
+    certificateName: '*.yearn.tools'
+    createRoute53Record: true
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: http
+    autoDomain: false

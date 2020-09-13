@@ -1,14 +1,14 @@
 'use strict';
 
 require('dotenv').config()
-const vaultsConfig = require('../vaults');
+const vaultsConfig = require('../../../../config/vaults');
 const fetch = require('node-fetch');
 const {pluck, uniq} = require('ramda/dist/ramda');
 const BigNumber = require('bignumber.js');
 const Web3 = require('web3');
 const web3 = new Web3(process.env.WEB3_ENDPOINT);
 
-module.exports.userEarnings = async event => {
+module.exports.handler = async event => {
   const earnings = await getEarningsData(event.pathParameters.id);
 
   return {
