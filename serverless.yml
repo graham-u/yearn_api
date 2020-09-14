@@ -8,15 +8,15 @@ custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
   customDomain:
-    domainName: ${self:custom.currentStage}-api.yearn.tools
+    domainName: api.yearn.tools
     stage: ${self:custom.currentStage}
-    basePath: ''
-    certificateName: '*.yearn.tools'
+    basePath: ""
+    certificateName: "*.yearn.tools"
     createRoute53Record: true
-    endpointType: 'regional'
+    endpointType: "regional"
     securityPolicy: tls_1_2
     apiType: http
-    # autoDomain: false
+    # autoDomain: true
 
 provider:
   name: aws
@@ -33,7 +33,16 @@ functions:
 
   loanscan-link:
     handler: services/loanscan/link/handler.handler
+    role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
     events:
       - httpApi:
           path: /loanscan/link
+          method: get
+
+  loanscan-eth-stable:
+    handler: services/loanscan/eth-stable/handler.handler
+    role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    events:
+      - httpApi:
+          path: /loanscan/ethstable
           method: get
