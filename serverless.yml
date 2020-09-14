@@ -1,13 +1,27 @@
 service: aws-node-rest-api
 
+plugins:
+  - serverless-offline
+  - serverless-domain-manager
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  customDomain:
+    domainName: ${self:custom.currentStage}-api.yearn.tools
+    stage: ${self:custom.currentStage}
+    basePath: ''
+    certificateName: '*.yearn.tools'
+    createRoute53Record: true
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: http
+    # autoDomain: false
+
 provider:
   name: aws
   runtime: nodejs12.x
   profile: ${file(./awsProfile.yml):aws_profile}
-
-plugins:
-  - serverless-offline
-  - serverless-domain-manager
 
 functions:
   user-earnings:
@@ -23,14 +37,3 @@ functions:
       - httpApi:
           path: /loanscan/link
           method: get
-custom:
-  customDomain:
-    domainName: api.yearn.tools
-    stage: ci
-    basePath: 'ci'
-    certificateName: '*.yearn.tools'
-    createRoute53Record: true
-    endpointType: 'regional'
-    securityPolicy: tls_1_2
-    apiType: http
-    autoDomain: false
